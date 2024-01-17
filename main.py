@@ -50,7 +50,7 @@ def getqa(soup, month, day):
 
     ps = soup.find_all('p')
     for p_ele in ps:
-        if count >= 8:
+        if count >= 20:
             break
 
         if (p_ele.text.startswith(todayNo1)):
