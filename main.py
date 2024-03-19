@@ -40,7 +40,7 @@ def bark(device_key, title, content, bark_icon):
     return 0
 
 
-def getqa(soup, month, day):
+def getQA_DuoTe_35822(soup, month, day):
     message_all = []
 
     count = 0
@@ -72,7 +72,33 @@ def getqa(soup, month, day):
         count += 1
     return message_all
 
-def getContent(url, month, day):
+
+def getQA_YouXi369_49969(soup, month, day):
+    message_all = []
+
+    count = 0
+
+    todayNo1 = month + '.' + day
+    todayNo2 = month + '月' + day + '日'
+
+    ps = soup.find_all('p')
+    for p_ele in ps:
+        if count >= 20:
+            break
+
+        if (p_ele.text.startswith(todayNo1)):
+            message_all.append(p_ele.text + '\n')
+            print(p_ele.text)
+        else:
+            if (p_ele.text.startswith(todayNo2)):
+                message_all.append(p_ele.text + '\n')
+                print(p_ele.text)
+
+        count += 1
+    return message_all
+
+
+def getSoup(url):
     # get请求获取内容
     response = requests.get(url)
 
@@ -85,9 +111,7 @@ def getContent(url, month, day):
     # 解析HTML
     soup = BeautifulSoup(html_content, 'html.parser')
 
-    message_all = getqa(soup, month, day)
-
-    return message_all
+    return soup
 
 def main():
     now = datetime.now()
@@ -100,17 +124,19 @@ def main():
     if day[0] == '0':
         day = day[1:]
 
-    url = 'https://m.duotegame.com/mgl/35822.html'
-    url1 = 'https://www.youxi369.com/gonglue/49969.html'
+    url1 = 'https://m.duotegame.com/mgl/35822.html'
+    url2 = 'https://www.youxi369.com/gonglue/49969.html'
 
-    message_all = getContent(url1, month, day)
+    soup = getSoup(url1)
+    message_all = getQA_DuoTe_35822(soup, month, day)
     if not message_all:
-        message_all = getContent(url1, month, day)
+        soup = getSoup(url2)
+        message_all = getQA_YouXi369_49969(soup, month, day)
 
     bark_deviceKey = os.environ.get('BARK_DEVICEKEY')
+    bark_icon = os.environ.get('BARK_ICON')
     title = '蚂蚁庄园今日答案'
     message = ''
-    bark_icon = os.environ.get('BARK_ICON')
 
     if not message_all:
         message = '未能查询到当日答案'
