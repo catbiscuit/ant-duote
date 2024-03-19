@@ -103,7 +103,7 @@ def main():
     url = 'https://m.duotegame.com/mgl/35822.html'
     url1 = 'https://www.youxi369.com/gonglue/49969.html'
 
-    message_all = getContent(url, month, day)
+    message_all = getContent(url1, month, day)
     if not message_all:
         message_all = getContent(url1, month, day)
 
