@@ -72,20 +72,7 @@ def getqa(soup, month, day):
         count += 1
     return message_all
 
-
-def main():
-    now = datetime.now()
-
-    month = now.strftime("%m")
-    day = now.strftime('%d')
-
-    if month[0] == '0':
-        month = month[1:]
-    if day[0] == '0':
-        day = day[1:]
-
-    url = 'https://m.duotegame.com/mgl/35822.html';
-
+def getContent(url, month, day):
     # get请求获取内容
     response = requests.get(url)
 
@@ -99,6 +86,26 @@ def main():
     soup = BeautifulSoup(html_content, 'html.parser')
 
     message_all = getqa(soup, month, day)
+
+    return message_all
+
+def main():
+    now = datetime.now()
+
+    month = now.strftime("%m")
+    day = now.strftime('%d')
+
+    if month[0] == '0':
+        month = month[1:]
+    if day[0] == '0':
+        day = day[1:]
+
+    url = 'https://m.duotegame.com/mgl/35822.html'
+    url1 = 'https://www.youxi369.com/gonglue/49969.html'
+
+    message_all = getContent(url, month, day)
+    if not message_all:
+        message_all = getContent(url1, month, day)
 
     bark_deviceKey = os.environ.get('BARK_DEVICEKEY')
     title = '蚂蚁庄园今日答案'
