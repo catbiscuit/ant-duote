@@ -107,6 +107,8 @@ def getSoup(url):
 
     # 取text属性
     html_content = response.text
+    print(url)
+    print(html_content)
 
     # 解析HTML
     soup = BeautifulSoup(html_content, 'html.parser')
